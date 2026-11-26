@@ -8,12 +8,15 @@ export function MappingCard({
   expanded,
   onToggle,
   showCategory,
+  labels = false,
 }: {
   m: Mapping;
   hits: ProviderId[];
   expanded: boolean;
   onToggle?: () => void;
   showCategory?: boolean;
+  /** Always show the provider name above each cell (pages without the sticky column header). */
+  labels?: boolean;
 }) {
   return (
     <article id={m.id} className="scroll-mt-64 overflow-hidden rounded-[var(--radius)] border border-line bg-surface">
@@ -47,7 +50,7 @@ export function MappingCard({
 
       <div id={`${m.id}-cells`} className="grid gap-px bg-line md:grid-cols-3">
         {PROVIDERS.map((p) => (
-          <Cell key={p.id} id={m.id} provider={p} svc={m[p.id]} hit={hits.includes(p.id)} expanded={expanded} />
+          <Cell key={p.id} id={m.id} provider={p} svc={m[p.id]} hit={hits.includes(p.id)} expanded={expanded} labels={labels} />
         ))}
       </div>
 
@@ -73,17 +76,19 @@ function Cell({
   svc,
   hit,
   expanded,
+  labels,
 }: {
   id: string;
   provider: (typeof PROVIDERS)[number];
   svc: Service;
   hit: boolean;
   expanded: boolean;
+  labels: boolean;
 }) {
   return (
     <div className={`relative bg-surface px-5 py-4 ${hit ? "match" : ""}`} data-provider={provider.id}>
       {/* Provider label: always on mobile (stacked), hidden on desktop where the sticky header shows it */}
-      <div className="mb-2 flex items-center gap-2 text-xs font-medium text-muted md:hidden">
+      <div className={`mb-3 flex items-center gap-2 text-xs font-medium text-muted ${labels ? "" : "md:hidden"}`}>
         <span className="text-ink">
           <ProviderLogo id={provider.id} size={16} />
         </span>

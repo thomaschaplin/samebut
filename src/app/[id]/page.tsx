@@ -67,7 +67,7 @@ export default async function Page({ params }: Props) {
         </p>
       </header>
 
-      <MappingCard m={m} hits={[]} expanded />
+      <MappingCard m={m} hits={[]} expanded labels />
 
       <section className="mt-12">
         <h2 className="text-lg font-semibold tracking-tight">Quick answers</h2>
