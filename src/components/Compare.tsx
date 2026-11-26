@@ -98,15 +98,42 @@ export function Compare() {
 
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <Side pick={left} onPick={setA} />
-        <Side pick={right} onPick={setB} showNote={!same} />
+        <Side pick={right} onPick={setB} />
       </div>
+
+      <Notes picks={[left, right]} />
     </div>
   );
 }
 
 const shortName = (p: Pick) => p.svc.name.replace(/^(Amazon|AWS|Azure|Google Cloud|Microsoft) /, "").replace(/ \(.*\)$/, "");
 
-function Side({ pick, onPick, showNote = true }: { pick: Pick; onPick: (key: string) => void; showNote?: boolean }) {
+/**
+ * Notes describe a whole row (e.g. "Google renamed Cloud Functions…"), not one
+ * provider, so they sit below both cards, once per row, labelled by concept.
+ */
+function Notes({ picks }: { picks: Pick[] }) {
+  const rows = [...new Map(picks.map((p) => [p.mapping.id, p.mapping])).values()].filter((m) => m.note);
+  if (!rows.length) return null;
+  return (
+    <section className="mt-4 space-y-2">
+      {rows.map((m) => (
+        <p key={m.id} className="flex gap-2.5 rounded-[var(--radius)] border border-line bg-surface-2/60 px-5 py-3 text-sm text-ink-2">
+          <svg className="mt-0.5 shrink-0 text-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 11v5M12 7.5v.5" />
+          </svg>
+          <span>
+            <span className="font-medium text-ink">Good to know{rows.length > 1 ? ` (${m.concept})` : ""}: </span>
+            {m.note}
+          </span>
+        </p>
+      ))}
+    </section>
+  );
+}
+
+function Side({ pick, onPick }: { pick: Pick; onPick: (key: string) => void }) {
   const { mapping: m, provider, svc } = pick;
   const others = PROVIDERS.filter((p) => p.id !== provider.id);
   return (
@@ -136,12 +163,6 @@ function Side({ pick, onPick, showNote = true }: { pick: Pick; onPick: (key: str
           <List kind="pro" items={svc.pros ?? []} />
           <List kind="con" items={svc.cons ?? []} />
         </div>
-        {showNote && m.note && (
-          <p className="rounded-xl bg-surface-2 px-4 py-3 text-sm text-ink-2">
-            <span className="font-medium text-ink">Good to know: </span>
-            {m.note}
-          </p>
-        )}
       </div>
 
       <footer className="border-t border-line px-5 py-4 text-sm">
