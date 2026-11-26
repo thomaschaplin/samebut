@@ -112,7 +112,7 @@ function Cell({
   );
 }
 
-function List({ kind, items }: { kind: "pro" | "con"; items: string[] }) {
+export function List({ kind, items }: { kind: "pro" | "con"; items: string[] }) {
   if (!items.length) return null;
   return (
     <div>
@@ -132,12 +132,12 @@ function List({ kind, items }: { kind: "pro" | "con"; items: string[] }) {
 }
 
 /** The provider's official service icon, or the provider logo when the pack has no fitting icon. */
-function ServiceIcon({ id, provider }: { id: string; provider: ProviderId }) {
+export function ServiceIcon({ id, provider, size = 32, eager = false }: { id: string; provider: ProviderId; size?: number; eager?: boolean }) {
   if (ICONS[id]?.includes(provider))
-    return <img src={`/icons/${provider}/${id}.svg`} alt="" width={32} height={32} loading="lazy" className="size-8 shrink-0" />;
+    return <img src={`/icons/${provider}/${id}.svg`} alt="" width={size} height={size} loading={eager ? "eager" : "lazy"} className="shrink-0" style={{ width: size, height: size }} />;
   return (
-    <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-surface-2 text-ink">
-      <ProviderLogo id={provider} size={14} />
+    <span className="grid shrink-0 place-items-center rounded-lg bg-surface-2 text-ink" style={{ width: size, height: size }}>
+      <ProviderLogo id={provider} size={Math.round(size * 0.45)} />
     </span>
   );
 }

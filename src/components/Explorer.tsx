@@ -16,6 +16,7 @@ export function Explorer() {
   const [allDetails, setAllDetails] = useState(false);
   const [open, setOpen] = useState<Set<string>>(new Set());
   const input = useRef<HTMLInputElement>(null);
+  const [ready, setReady] = useState(false);
 
   // Read ?q= and ?c= once on load so searches can be shared as links.
   useEffect(() => {
@@ -29,15 +30,17 @@ export function Explorer() {
       setOpen(new Set([hash]));
       requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView({ block: "start" }));
     }
+    setReady(true);
   }, []);
 
   useEffect(() => {
+    if (!ready) return;
     const p = new URLSearchParams();
     if (q) p.set("q", q);
     if (cat !== "all") p.set("c", cat);
     const qs = p.toString();
     history.replaceState(null, "", `${location.pathname}${qs ? `?${qs}` : ""}${location.hash}`);
-  }, [q, cat]);
+  }, [q, cat, ready]);
 
   // "/" focuses search, Escape clears it.
   useEffect(() => {

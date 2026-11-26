@@ -94,3 +94,17 @@ describe("alias matching", () => {
     expect(search(MAPPINGS, "nat gateway")[0].mapping.id).toBe("nat");
   });
 });
+
+import { DEFAULT_PAIR, getPick, PICKS, SUGGESTED } from "@/content/compare";
+
+describe("compare", () => {
+  it("has a pick for every real service and valid suggestions", () => {
+    const real = MAPPINGS.reduce((n, m) => n + PROVIDERS.filter((p) => !m[p.id].none).length, 0);
+    expect(PICKS.length).toBe(real);
+    for (const k of [...DEFAULT_PAIR, ...SUGGESTED.flat()]) expect(getPick(k), k).toBeDefined();
+  });
+
+  it("no mapping id collides with a fixed route", () => {
+    for (const reserved of ["compare", "icons", "sitemap.xml", "robots.txt"]) expect(MAPPINGS.some((m) => m.id === reserved)).toBe(false);
+  });
+});

@@ -10,6 +10,9 @@ export function SiteHeader() {
           <Wordmark />
         </a>
         <nav className="flex items-center gap-1 text-sm text-ink-2">
+          <a href="/compare" className="rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink">
+            Compare
+          </a>
           <a
             href="https://github.com/thomaschaplin/samebut"
             className="rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink"
