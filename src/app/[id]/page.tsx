@@ -7,11 +7,6 @@ import { SITE_NAME, siteUrl } from "@/lib/site";
 
 export const dynamicParams = false;
 
-/** Link to /compare with the first two providers that have this service. */
-function compareHref(m: NonNullable<ReturnType<typeof getMapping>>) {
-  const have = (["aws", "gcp", "azure"] as const).filter((p) => !m[p].none);
-  return have.length >= 2 ? `/compare?a=${have[0]}:${m.id}&b=${have[1]}:${m.id}` : null;
-}
 
 export function generateStaticParams() {
   return MAPPINGS.map((m) => ({ id: m.id }));
@@ -75,13 +70,6 @@ export default async function Page({ params }: Props) {
 
       <MappingCard m={m} hits={[]} expanded labels />
 
-      {compareHref(m) && (
-        <p className="mt-4 text-sm">
-          <a href={compareHref(m)!} className="text-ink-2 underline decoration-line-strong underline-offset-4 transition hover:text-ink">
-            Compare two of these side by side →
-          </a>
-        </p>
-      )}
 
       <section className="mt-12">
         <h2 className="text-lg font-semibold tracking-tight">Quick answers</h2>

@@ -1,3 +1,4 @@
+import { compareHref } from "@/content/compare";
 import { ICONS } from "@/content/icons";
 import { CATEGORY_LABEL, PROVIDERS, type Mapping, type ProviderId, type Service } from "@/content/services";
 import { ProviderLogo } from "./ProviderLogo";
@@ -18,6 +19,7 @@ export function MappingCard({
   /** Always show the provider name above each cell (pages without the sticky column header). */
   labels?: boolean;
 }) {
+  const compare = compareHref(m, hits[0]);
   return (
     <article id={m.id} className="scroll-mt-64 overflow-hidden rounded-[var(--radius)] border border-line bg-surface">
       <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3">
@@ -29,6 +31,20 @@ export function MappingCard({
           </h2>
           {showCategory && <span className="pill">{CATEGORY_LABEL[m.category]}</span>}
         </div>
+        <div className="flex shrink-0 items-center gap-1">
+        {compare && (
+          <a
+            href={compare}
+            className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm text-ink-2 transition hover:bg-surface-2 hover:text-ink"
+            aria-label={`Compare ${m.concept.toLowerCase()} side by side`}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <rect x="3" y="4" width="7" height="16" rx="1.5" />
+              <rect x="14" y="4" width="7" height="16" rx="1.5" />
+            </svg>
+            <span className="hidden sm:inline">Compare</span>
+          </a>
+        )}
         {onToggle && (
         <button
           type="button"
@@ -46,6 +62,7 @@ export function MappingCard({
           </svg>
         </button>
         )}
+        </div>
       </header>
 
       <div id={`${m.id}-cells`} className="grid gap-px bg-line md:grid-cols-3">

@@ -27,3 +27,16 @@ export const SUGGESTED: [string, string][] = [
 ];
 
 export const DEFAULT_PAIR: [string, string] = ["aws:functions", "gcp:functions"];
+
+/**
+ * Link to /compare for a mapping: starts from `from` (e.g. the provider the user
+ * searched for) when it has the service, paired with the next provider that does.
+ * Null when fewer than two providers have it.
+ */
+export function compareHref(m: Mapping, from?: ProviderId) {
+  const have = PROVIDERS.map((p) => p.id).filter((p) => !m[p].none);
+  if (have.length < 2) return null;
+  const first = from && have.includes(from) ? from : have[0];
+  const second = have.find((p) => p !== first)!;
+  return `/compare?a=${first}:${m.id}&b=${second}:${m.id}`;
+}

@@ -108,3 +108,17 @@ describe("compare", () => {
     for (const reserved of ["compare", "icons", "sitemap.xml", "robots.txt"]) expect(MAPPINGS.some((m) => m.id === reserved)).toBe(false);
   });
 });
+
+import { compareHref } from "@/content/compare";
+
+describe("compareHref", () => {
+  const m = (id: string) => MAPPINGS.find((x) => x.id === id)!;
+  it("starts from the searched provider", () => {
+    expect(compareHref(m("serverless-containers"), "gcp")).toBe("/compare?a=gcp:serverless-containers&b=aws:serverless-containers");
+    expect(compareHref(m("functions"))).toBe("/compare?a=aws:functions&b=gcp:functions");
+  });
+  it("skips providers with no equivalent, and needs two", () => {
+    expect(compareHref(m("email"))).toBe("/compare?a=aws:email&b=azure:email");
+    expect(compareHref(m("rabbitmq"))).toBeNull();
+  });
+});
