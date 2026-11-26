@@ -42,7 +42,10 @@ export function search(mappings: Mapping[], query: string, category: CategoryId 
     const aliases = (m.aliases ?? []).map(normalise);
     if (concept.includes(q)) score += 50;
     if (aliases.some((a) => a === q)) score += 45;
-    else if (aliases.some((a) => a.includes(q) || q.includes(a))) score += 25;
+    // Partial alias match: the query starts an alias ("kube" → "kubernetes"), or an
+    // alias appears as a whole word in the query ("aws s3 bucket" → "s3"). Never a
+    // fragment inside a word, so "rabbitmq" doesn't match the alias "bi".
+    else if (aliases.some((a) => a.startsWith(q) || ` ${q} `.includes(` ${a} `))) score += 25;
 
     // Fallback: every term appears somewhere in the row's text.
     if (score === 0) {

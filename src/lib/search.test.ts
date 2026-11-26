@@ -80,3 +80,17 @@ describe("logo files", () => {
     expect(readFileSync("public/logo-dark.svg", "utf8").trim()).toBe(lockupSvg("dark"));
   });
 });
+
+describe("alias matching", () => {
+  it("doesn't match short aliases inside other words", () => {
+    const ids = search(MAPPINGS, "rabbitmq").map((r) => r.mapping.id);
+    expect(ids[0]).toBe("rabbitmq");
+    expect(ids).not.toContain("bi");
+  });
+
+  it("finds the second wave of services", () => {
+    expect(search(MAPPINGS, "cloud scheduler")[0].mapping.id).toBe("scheduler");
+    expect(search(MAPPINGS, "sentinel")[0].mapping.id).toBe("siem");
+    expect(search(MAPPINGS, "nat gateway")[0].mapping.id).toBe("nat");
+  });
+});
