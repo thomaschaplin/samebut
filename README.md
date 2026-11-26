@@ -14,7 +14,7 @@ Know one cloud? Find the other two. Every common cloud service is shown in three
 - Search by any provider's service name ("Cloud Run", "Cosmos DB", "Lambda") or by an alias ("k8s", "s3", "redis"). The cell you searched for is highlighted.
 - Filter by category, expand pros and cons per row or for all rows, and switch between light and dark themes.
 - Searches can be shared: `?q=cloud+run&c=serverless`.
-- Every mapping also has its own page (e.g. `/serverless-containers`) titled "X vs Y vs Z", with quick answers ("What is the Azure equivalent of Cloud Run?"), FAQ and breadcrumb structured data, and its own social share image.
+- Every mapping also has its own page (e.g. `/serverless-containers`) titled "X vs Y vs Z", with breadcrumb structured data, links to related services, and its own social share image.
 
 ## Run it
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { MappingCard } from "@/components/MappingCard";
-import { getMapping, quickAnswers, versusTitle } from "@/content/lookup";
+import { getMapping, versusTitle } from "@/content/lookup";
 import { CATEGORY_LABEL, MAPPINGS } from "@/content/services";
 import { SITE_NAME, siteUrl } from "@/lib/site";
 
@@ -32,24 +32,16 @@ export default async function Page({ params }: Props) {
   const m = getMapping((await params).id);
   if (!m) notFound();
 
-  const answers = quickAnswers(m);
   const related = MAPPINGS.filter((x) => x.category === m.category && x.id !== m.id);
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: answers.map((x) => ({ "@type": "Question", name: x.q, acceptedAnswer: { "@type": "Answer", text: x.a } })),
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: SITE_NAME, item: siteUrl },
-        { "@type": "ListItem", position: 2, name: CATEGORY_LABEL[m.category], item: `${siteUrl}/?c=${m.category}` },
-        { "@type": "ListItem", position: 3, name: m.concept, item: `${siteUrl}/${m.id}` },
-      ],
-    },
-  ];
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: SITE_NAME, item: siteUrl },
+      { "@type": "ListItem", position: 2, name: CATEGORY_LABEL[m.category], item: `${siteUrl}/?c=${m.category}` },
+      { "@type": "ListItem", position: 3, name: m.concept, item: `${siteUrl}/${m.id}` },
+    ],
+  };
 
   return (
     <div className="mx-auto max-w-6xl px-4 sm:px-6">
@@ -70,18 +62,6 @@ export default async function Page({ params }: Props) {
 
       <MappingCard m={m} hits={[]} expanded labels />
 
-
-      <section className="mt-12">
-        <h2 className="text-lg font-semibold tracking-tight">Quick answers</h2>
-        <dl className="mt-4 grid gap-x-8 gap-y-5 md:grid-cols-2">
-          {answers.map((x) => (
-            <div key={x.q}>
-              <dt className="font-medium">{x.q}</dt>
-              <dd className="mt-1 text-sm leading-relaxed text-ink-2">{x.a}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
 
       {related.length > 0 && (
         <section className="mt-12">
