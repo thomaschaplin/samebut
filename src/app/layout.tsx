@@ -13,7 +13,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: `${SITE_NAME}: AWS, Google Cloud and Azure services, side by side`, template: `%s · ${SITE_NAME}` },
   description: SITE_DESCRIPTION,
-  openGraph: { title: `${SITE_NAME}: ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, type: "website" },
+  applicationName: SITE_NAME,
+  keywords: ["AWS", "Google Cloud", "GCP", "Azure", "cloud services comparison", "AWS to GCP", "AWS to Azure", "cloud equivalents"],
+  alternates: { canonical: "/" },
+  openGraph: { title: `${SITE_NAME}: ${SITE_TAGLINE}`, description: SITE_DESCRIPTION, type: "website", siteName: SITE_NAME, url: "/", locale: "en_GB" },
+  twitter: { card: "summary_large_image", title: `${SITE_NAME}: ${SITE_TAGLINE}`, description: SITE_DESCRIPTION },
+  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {

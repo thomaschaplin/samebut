@@ -1,17 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  CATEGORIES,
-  CATEGORY_LABEL,
-  MAPPINGS,
-  PROVIDERS,
-  type CategoryId,
-  type Mapping,
-  type ProviderId,
-  type Service,
-} from "@/content/services";
+import { CATEGORIES, CATEGORY_LABEL, MAPPINGS, PROVIDERS, type CategoryId } from "@/content/services";
 import { search } from "@/lib/search";
+import { MappingCard } from "./MappingCard";
 import { ProviderLogo } from "./ProviderLogo";
 
 type Cat = CategoryId | "all";
@@ -182,7 +174,7 @@ export function Explorer() {
         )}
 
         {results.map(({ mapping, hits }) => (
-          <Row
+          <MappingCard
             key={mapping.id}
             m={mapping}
             hits={hits}
@@ -210,122 +202,5 @@ function Chip({ active, onClick, label, count }: { active: boolean; onClick: () 
       {label}
       <span className={`ml-1.5 tabular-nums ${active ? "opacity-70" : "text-muted"}`}>{count}</span>
     </button>
-  );
-}
-
-function Row({
-  m,
-  hits,
-  expanded,
-  onToggle,
-  showCategory,
-}: {
-  m: Mapping;
-  hits: ProviderId[];
-  expanded: boolean;
-  onToggle: () => void;
-  showCategory: boolean;
-}) {
-  return (
-    <article id={m.id} className="scroll-mt-64 overflow-hidden rounded-[var(--radius)] border border-line bg-surface">
-      <header className="flex items-center justify-between gap-3 border-b border-line px-5 py-3">
-        <div className="flex min-w-0 flex-wrap items-center gap-x-3 gap-y-1">
-          <h2 className="font-semibold tracking-tight">
-            <a href={`#${m.id}`} className="hover:underline hover:decoration-line-strong hover:underline-offset-4">
-              {m.concept}
-            </a>
-          </h2>
-          {showCategory && <span className="pill">{CATEGORY_LABEL[m.category]}</span>}
-        </div>
-        <button
-          type="button"
-          onClick={onToggle}
-          aria-expanded={expanded}
-          aria-controls={`${m.id}-cells`}
-          className="flex shrink-0 items-center gap-1.5 rounded-full px-2.5 py-1 text-sm text-ink-2 transition hover:bg-surface-2 hover:text-ink"
-        >
-          Pros &amp; cons
-          <svg
-            width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden
-            className={`transition-transform ${expanded ? "rotate-180" : ""}`}
-          >
-            <path d="m6 9 6 6 6-6" />
-          </svg>
-        </button>
-      </header>
-
-      <div id={`${m.id}-cells`} className="grid gap-px bg-line md:grid-cols-3">
-        {PROVIDERS.map((p) => (
-          <Cell key={p.id} provider={p} svc={m[p.id]} hit={hits.includes(p.id)} expanded={expanded} />
-        ))}
-      </div>
-
-      {m.note && (
-        <p className="flex gap-2.5 border-t border-line bg-surface-2/60 px-5 py-3 text-sm text-ink-2">
-          <svg className="mt-0.5 shrink-0 text-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 11v5M12 7.5v.5" />
-          </svg>
-          <span>
-            <span className="font-medium text-ink">Good to know: </span>
-            {m.note}
-          </span>
-        </p>
-      )}
-    </article>
-  );
-}
-
-function Cell({
-  provider,
-  svc,
-  hit,
-  expanded,
-}: {
-  provider: (typeof PROVIDERS)[number];
-  svc: Service;
-  hit: boolean;
-  expanded: boolean;
-}) {
-  return (
-    <div className={`relative bg-surface px-5 py-4 ${hit ? "match" : ""}`} data-provider={provider.id}>
-      {/* Provider label: always on mobile (stacked), hidden on desktop where the sticky header shows it */}
-      <div className="mb-2 flex items-center gap-2 text-xs font-medium text-muted md:hidden">
-        <span className="text-ink">
-          <ProviderLogo id={provider.id} size={16} />
-        </span>
-        {provider.name}
-      </div>
-      {hit && <span className="absolute top-3 right-3 rounded-full bg-[var(--match)] px-2 py-0.5 text-[11px] font-medium text-[var(--match-ink)]">Match</span>}
-
-      <h3 className={`font-semibold tracking-tight ${svc.none ? "text-muted italic" : ""} ${hit ? "pr-14" : ""}`}>{svc.name}</h3>
-      <p className="mt-1 text-sm leading-relaxed text-ink-2">{svc.desc}</p>
-
-      {expanded && !svc.none && (
-        <div className="mt-4 space-y-3 text-sm">
-          <List kind="pro" items={svc.pros ?? []} />
-          <List kind="con" items={svc.cons ?? []} />
-        </div>
-      )}
-    </div>
-  );
-}
-
-function List({ kind, items }: { kind: "pro" | "con"; items: string[] }) {
-  if (!items.length) return null;
-  return (
-    <div>
-      <p className="mb-1.5 text-xs font-medium tracking-wide text-muted uppercase">{kind === "pro" ? "Pros" : "Cons"}</p>
-      <ul className="space-y-1.5">
-        {items.map((t) => (
-          <li key={t} className="flex gap-2 text-ink-2">
-            <span className={`mt-[3px] grid size-4 shrink-0 place-items-center rounded-full text-[11px] leading-none font-bold ${kind === "pro" ? "bg-ok-soft text-ok" : "bg-err-soft text-err"}`} aria-hidden>
-              {kind === "pro" ? "+" : "−"}
-            </span>
-            <span>{t}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

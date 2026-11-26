@@ -53,3 +53,18 @@ describe("search precision", () => {
     expect(ids.length).toBeLessThanOrEqual(3);
   });
 });
+
+import { existsSync } from "node:fs";
+import { ICONS } from "@/content/icons";
+
+describe("icons", () => {
+  it("covers every mapping, and every listed icon exists", () => {
+    for (const m of MAPPINGS) {
+      expect(ICONS[m.id], m.id).toBeDefined();
+      for (const p of ICONS[m.id]) {
+        expect(m[p as "aws"].none, `${m.id}/${p} has an icon but no service`).not.toBe(true);
+        expect(existsSync(`public/icons/${p}/${m.id}.svg`), `${m.id}/${p}`).toBe(true);
+      }
+    }
+  });
+});
