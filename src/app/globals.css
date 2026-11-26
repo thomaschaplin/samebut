@@ -1,0 +1,132 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Design tokens. Provider colours are used for marks only, never for text. */
+:root {
+  --bg: #fafaf8;
+  --surface: #ffffff;
+  --surface-2: #f3f3f0;
+  --border: #e6e4df;
+  --border-strong: #d4d1ca;
+  --text: #1a1a1c;
+  --text-2: #55555c;
+  --muted: #6b6b73;
+
+  --ok: #147a41;
+  --ok-soft: #dcf3e5;
+  --err: #c02a30;
+  --err-soft: #fdeded;
+
+  --match: #fff1c2;
+  --match-ink: #6b4a00;
+  --match-bg: #fffbeb;
+
+  --aws: #ff9900;
+  --gcp: #4285f4;
+  --azure: #0078d4;
+
+  --radius: 14px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d10;
+    --surface: #151519;
+    --surface-2: #1c1c21;
+    --border: #2a2a31;
+    --border-strong: #3a3a43;
+    --text: #f2f2f4;
+    --text-2: #b4b4bd;
+    --muted: #8b8b96;
+    --ok: #4cc47e;
+    --ok-soft: #12301f;
+    --err: #ff6b70;
+    --err-soft: #3d1a1c;
+    --match: #4a3a0c;
+    --match-ink: #ffd76a;
+    --match-bg: #1f1b10;
+    --gcp: #6ea1ff;
+    --azure: #3a9df0;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0d0d10;
+  --surface: #151519;
+  --surface-2: #1c1c21;
+  --border: #2a2a31;
+  --border-strong: #3a3a43;
+  --text: #f2f2f4;
+  --text-2: #b4b4bd;
+  --muted: #8b8b96;
+  --ok: #4cc47e;
+  --ok-soft: #12301f;
+  --err: #ff6b70;
+  --err-soft: #3d1a1c;
+  --match: #4a3a0c;
+  --match-ink: #ffd76a;
+  --match-bg: #1f1b10;
+  --gcp: #6ea1ff;
+  --azure: #3a9df0;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-muted: var(--muted);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --color-err: var(--err);
+  --color-err-soft: var(--err-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100dvh;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gcp);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* The cell matching the search gets a soft highlight. */
+.match {
+  background: var(--match-bg);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.0625rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--text-2);
+  background: var(--surface-2);
+  white-space: nowrap;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  cursor: pointer;
+}
