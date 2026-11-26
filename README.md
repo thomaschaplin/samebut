@@ -1,4 +1,13 @@
-# samebut: same service, different cloud
+<p align="center">
+  <a href="https://samebut.thomaschaplin.me">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="public/logo-dark.svg" />
+      <img src="public/logo-light.svg" alt="samebut" width="300" />
+    </picture>
+  </a>
+</p>
+
+<p align="center"><strong>Same service, different cloud.</strong><br />AWS, Google Cloud and Azure services, side by side.</p>
 
 Know one cloud? Find the other two. Every common cloud service is shown in three columns, always in the order **AWS · Google Cloud · Azure**. Each one has a short description, pros and cons, and a "good to know" note where the services differ in ways that matter.
 
@@ -21,6 +30,10 @@ npm run build   # static production build
 Everything lives in [`src/content/services.ts`](src/content/services.ts). Add a row to `MAPPINGS`. Use `none("…")` when a provider has no equivalent. The tests check that ids are unique and that every service has a description and pros and cons.
 
 To rename the site, change `SITE_NAME` in [`src/lib/site.ts`](src/lib/site.ts).
+
+## Logo
+
+One cloud, cut into three stripes: AWS orange, Google green, Azure blue. The shape lives in [`src/lib/logo.ts`](src/lib/logo.ts), and the header, Apple icon and share images all draw from it. After changing it, run `node scripts/logo.ts` to regenerate the favicon (`src/app/icon.svg`) and the README logos (`public/logo*.svg`). A test fails if those files are out of date.
 
 ## Service icons
 

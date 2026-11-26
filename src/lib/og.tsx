@@ -2,6 +2,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ICONS } from "@/content/icons";
 import type { ProviderId } from "@/content/services";
+import { LOGO_COLORS, markSvg, svgDataUri } from "@/lib/logo";
 
 /**
  * Shared look for Open Graph images. next/og renders a subset of CSS with
@@ -16,21 +17,18 @@ export const OG = {
   text: "#f2f2f4",
   text2: "#b4b4bd",
   muted: "#8b8b96",
-  aws: "#ff9900",
-  gcp: "#4285f4",
-  azure: "#0078d4",
+  aws: LOGO_COLORS.aws,
+  gcp: LOGO_COLORS.gcp,
+  azure: LOGO_COLORS.azure,
 };
 
 export function Brand({ size = 30 }: { size?: number }) {
-  const bar = (bg: string) => <div style={{ width: size * 0.3, height: size * 0.85, borderRadius: size * 0.1, background: bg }} />;
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: size * 0.45 }}>
-      <div style={{ display: "flex", gap: size * 0.12 }}>
-        {bar(OG.aws)}
-        {bar(OG.gcp)}
-        {bar(OG.azure)}
+    <div style={{ display: "flex", alignItems: "center", gap: size * 0.3 }}>
+      <img src={svgDataUri(markSvg({ size: size * 1.6 }))} width={size * 1.6} height={size * 1.6} />
+      <div style={{ display: "flex", fontSize: size, fontWeight: 600, letterSpacing: -0.8, color: OG.text }}>
+        same<span style={{ color: OG.muted }}>but</span>
       </div>
-      <div style={{ fontSize: size, fontWeight: 600, color: OG.text }}>samebut</div>
     </div>
   );
 }

@@ -68,3 +68,15 @@ describe("icons", () => {
     }
   });
 });
+
+import { readFileSync } from "node:fs";
+import { lockupSvg, markSvg } from "@/lib/logo";
+
+describe("logo files", () => {
+  it("match src/lib/logo.ts (run `node scripts/logo.ts` after changing it)", () => {
+    expect(readFileSync("src/app/icon.svg", "utf8").trim()).toBe(markSvg({ tile: true }));
+    expect(readFileSync("public/logo.svg", "utf8").trim()).toBe(markSvg({ size: 128 }));
+    expect(readFileSync("public/logo-light.svg", "utf8").trim()).toBe(lockupSvg("light"));
+    expect(readFileSync("public/logo-dark.svg", "utf8").trim()).toBe(lockupSvg("dark"));
+  });
+});
