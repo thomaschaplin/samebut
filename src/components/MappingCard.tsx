@@ -1,3 +1,4 @@
+import { CompareIcon } from "./CompareIcon";
 import { compareHref } from "@/content/compare";
 import { ICONS } from "@/content/icons";
 import { CATEGORY_LABEL, PROVIDERS, type Mapping, type ProviderId, type Service } from "@/content/services";
@@ -38,10 +39,7 @@ export function MappingCard({
             className="flex items-center gap-1.5 rounded-full px-2.5 py-1 text-sm text-ink-2 transition hover:bg-surface-2 hover:text-ink"
             aria-label={`Compare ${m.concept.toLowerCase()} side by side`}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-              <rect x="3" y="4" width="7" height="16" rx="1.5" />
-              <rect x="14" y="4" width="7" height="16" rx="1.5" />
-            </svg>
+            <CompareIcon size={15} />
             <span className="hidden sm:inline">Compare</span>
           </a>
         )}

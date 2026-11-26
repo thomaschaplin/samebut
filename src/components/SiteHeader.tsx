@@ -1,3 +1,4 @@
+import { CompareIcon } from "./CompareIcon";
 import { LogoMark, Wordmark } from "./Logo";
 import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
@@ -12,10 +13,7 @@ export function SiteHeader() {
         </a>
         <nav className="flex items-center gap-0.5 text-sm text-ink-2 sm:gap-1">
           <a href="/compare" aria-label="Compare" className="flex items-center rounded-full px-2 py-1.5 transition hover:bg-surface-2 hover:text-ink sm:px-3">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden className="min-[370px]:hidden">
-              <rect x="3" y="4" width="7" height="16" rx="1.5" />
-              <rect x="14" y="4" width="7" height="16" rx="1.5" />
-            </svg>
+            <CompareIcon size={18} className="min-[370px]:hidden" />
             <span className="hidden min-[370px]:inline">Compare</span>
           </a>
           <a
