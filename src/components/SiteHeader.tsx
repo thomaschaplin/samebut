@@ -1,4 +1,5 @@
 import { LogoMark, Wordmark } from "./Logo";
+import { MobileNav } from "./MobileNav";
 import { ThemeToggle } from "./ThemeToggle";
 
 export function SiteHeader() {
@@ -10,16 +11,17 @@ export function SiteHeader() {
           <Wordmark />
         </a>
         <nav className="flex items-center gap-1 text-sm text-ink-2">
-          <a href="/compare" className="rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink">
+          <a href="/compare" className="hidden rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink md:block">
             Compare
           </a>
           <a
             href="https://github.com/thomaschaplin/samebut"
-            className="rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink"
+            className="hidden rounded-full px-3 py-1.5 transition hover:bg-surface-2 hover:text-ink md:block"
           >
             GitHub
           </a>
           <ThemeToggle />
+          <MobileNav />
         </nav>
       </div>
     </header>

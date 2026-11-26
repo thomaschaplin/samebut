@@ -55,6 +55,17 @@ export function Explorer() {
     return () => removeEventListener("keydown", onKey);
   }, []);
 
+  // On phones the chip row scrolls sideways: keep the selected chip in view.
+  useEffect(() => {
+    const chip = document.querySelector<HTMLElement>("[data-active-chip]");
+    const row = chip?.parentElement;
+    if (chip && row && row.scrollWidth > row.clientWidth)
+    {
+      const offset = chip.getBoundingClientRect().left - row.getBoundingClientRect().left + row.scrollLeft;
+      row.scrollTo({ left: offset - row.clientWidth / 2 + chip.clientWidth / 2, behavior: ready ? "smooth" : "auto" });
+    }
+  }, [cat, ready]);
+
   const results = useMemo(() => search(MAPPINGS, q, cat), [q, cat]);
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: 0 };
@@ -197,6 +208,7 @@ function Chip({ active, onClick, label, count }: { active: boolean; onClick: () 
       type="button"
       onClick={onClick}
       aria-pressed={active}
+      data-active-chip={active || undefined}
       disabled={!count && !active}
       className={`shrink-0 rounded-full border px-3 py-1 text-sm whitespace-nowrap transition disabled:opacity-40 ${
         active ? "border-ink bg-ink text-bg" : "border-line bg-surface text-ink-2 hover:border-line-strong hover:text-ink"
