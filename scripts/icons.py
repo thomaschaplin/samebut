@@ -135,6 +135,27 @@ ICONS = {
     "transcoding": ("AWS-Elemental-MediaConvert", None, None),
     "maps": ("Amazon-Location-Service", "google_maps_platform", "Azure-Maps-Accounts"),
     "quantum": ("Amazon-Braket", None, None),
+    # third wave
+    "dedicated-hosts": ("Amazon-EC2", "core:Compute Engine", "Host-Groups"),
+    "confidential-computing": ("AWS-Nitro-Enclaves", "core:Compute Engine", None),
+    "time-series": ("Amazon-Timestream", None, "Azure-Data-Explorer-Clusters"),
+    "database-migration": ("AWS-Database-Migration-Service", "database_migration_service", "Azure-Database-Migration-Services"),
+    "archive-storage": ("Amazon-Simple-Storage-Service-Glacier", "core:Cloud Storage", "Storage-Accounts"),
+    "network-diagnostics": ("Amazon-Virtual-Private-Cloud", "network_intelligence_center", "Network-Watcher"),
+    "domain-registration": ("Amazon-Route-53", None, "App-Service-Domains"),
+    "realtime-messaging": ("AWS-AppSync", None, "pubsub"),
+    "sms": ("AWS-End-User-Messaging", None, "Azure-Communication-Services"),
+    "recommendations": ("Amazon-Personalize", "recommendations_ai", None),
+    "video-analysis": ("Amazon-Rekognition", "video_intelligence_api", "Azure-Video-Indexer"),
+    "compliance-reports": ("AWS-Artifact", None, None),
+    "synthetic-monitoring": ("Amazon-CloudWatch", "cloud_monitoring", "Application-Insights"),
+    "load-testing": (None, None, "Azure-Load-Testing"),
+    "source-repos": ("AWS-CodeCommit", None, "Azure-DevOps"),
+    "marketplace": ("AWS-Marketplace_Light", "google_cloud_marketplace", "Marketplace"),
+    "contact-center": ("Amazon-Connect", "contact_center_ai", None),
+    "healthcare-data": ("AWS-HealthLake", "cloud_healthcare_api", "FHIR-Service"),
+    "game-servers": ("Amazon-GameLift-Servers", None, None),
+    "live-streaming": ("AWS-Elemental-MediaLive", None, None),
 }
 
 
